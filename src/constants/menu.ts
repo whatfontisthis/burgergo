@@ -7,41 +7,47 @@ export interface MenuItem {
   image: string;
 }
 
+// Helper function to get image path with base URL
+const getImagePath = (path: string) => {
+  // Vite's import.meta.env.BASE_URL includes trailing slash
+  return `${import.meta.env.BASE_URL}${path.startsWith('/') ? path.slice(1) : path}`;
+};
+
 export const POPULAR_MENU_ITEMS: MenuItem[] = [
   {
     id: 'burger',
     name: '버거고 버거',
     description: '100%소고기 수제 패티+촉촉한 참깨빵+아메리칸 치즈+구운양파+수제소스',
     price: 6500,
-    image: '/images/burgergo-burger-6500won.jpg'
+    image: getImagePath('/images/burgergo-burger-6500won.jpg')
   },
   {
     id: 'double',
     name: '버거고 더블',
     description: '100%소고기 수제 패티x2+촉촉한 참깨빵+아메리칸 치즈x2+구운양파x2+수제소스',
     price: 9000,
-    image: '/images/burgergo-double-9000won.jpg'
+    image: getImagePath('/images/burgergo-double-9000won.jpg')
   },
   {
     id: 'deluxe',
     name: '버거고 디럭스',
     description: '100%소고기 수제 패티+로메인+토마토+촉촉한 참깨빵+아메리칸 치즈+구운양파+수제소스',
     price: 7700,
-    image: '/images/burgergo-deluxe-7700won.jpg'
+    image: getImagePath('/images/burgergo-deluxe-7700won.jpg')
   },
   {
     id: 'squid',
     name: '버거고 스퀴드',
     description: '100%소고기 수제 패티+오징어패티+촉촉한 참깨빵+아메리칸 치즈+구운양파+수제소스',
     price: 7700,
-    image: '/images/burgergo-squid-7700won.jpg'
+    image: getImagePath('/images/burgergo-squid-7700won.jpg')
   },
   {
     id: 'shrimp',
     name: '버거고 통새우',
     description: '통새우 패티 + 촉촉한 참깨빵 + 로메인 + 토마토 + 수제소스',
     price: 7500,
-    image: '/images/burgergo-whole-shrimp-7500won.jpg'
+    image: getImagePath('/images/burgergo-whole-shrimp-7500won.jpg')
   }
 ];
 
