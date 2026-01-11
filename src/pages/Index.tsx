@@ -96,14 +96,14 @@ const Index = () => {
 
   const handleRegister = useCallback(async () => {
     if (!registerName.trim() || !registerPhone.trim()) {
-      setRegisterError('Please fill in all fields');
+      setRegisterError('모든 항목을 입력하세요');
       return;
     }
 
     // Validate phone number format
     const cleanedPhone = registerPhone.replace(/\D/g, '');
     if (cleanedPhone.length < 10 || cleanedPhone.length > 11) {
-      setRegisterError('Please enter a valid phone number (10-11 digits)');
+      setRegisterError('올바른 전화번호를 입력하세요 (10-11자리)');
       return;
     }
 
@@ -134,16 +134,16 @@ const Index = () => {
           setRegisterPhone('');
           setPhoneDigits(existingUser.phone_last4);
         } else {
-          setRegisterError('This phone number is already registered. Please check your name and try again, or contact support if you believe this is an error.');
+          setRegisterError('이 전화번호는 이미 등록되어 있습니다. 이름을 확인하고 다시 시도하거나, 오류라고 생각되면 고객지원에 문의하세요.');
         }
       } else {
         const errorMsg = error.message || 'Registration failed';
         if (errorMsg.includes('network') || errorMsg.includes('fetch')) {
-          setRegisterError('Connection error. Please check your internet connection and try again.');
+          setRegisterError('연결 오류가 발생했습니다. 인터넷 연결을 확인하고 다시 시도하세요.');
         } else if (errorMsg.includes('timeout')) {
-          setRegisterError('Request timed out. Please try again.');
+          setRegisterError('요청 시간이 초과되었습니다. 다시 시도하세요.');
         } else {
-          setRegisterError(`Registration failed: ${errorMsg}. Please try again or contact support.`);
+          setRegisterError(`등록 실패: ${errorMsg}. 다시 시도하거나 고객지원에 문의하세요.`);
         }
       }
     } finally {
@@ -289,17 +289,17 @@ const Index = () => {
               <div className="w-full max-w-md bg-white p-6 rounded-3xl shadow-sm border border-gray-200">
                 <div className="flex justify-between items-end mb-6">
                   <div>
-                    <h2 className="text-2xl font-black text-burger-accent-red italic leading-none">BURGERGO!</h2>
+                    <h2 className="text-2xl font-black text-burger-accent-red italic leading-none">버거고!</h2>
                     <p className="text-gray-400 text-xs font-bold mt-1 uppercase tracking-widest">
-                      {selectedUser ? selectedUser.name : "Guest Member"}
+                      {selectedUser ? selectedUser.name : "게스트"}
                     </p>
                   </div>
                   <div className="text-right">
                       <span className="text-3xl font-black text-gray-800">{currentStamps}</span>
-                      <span className="text-gray-400 font-bold">stamps</span>
+                      <span className="text-gray-400 font-bold">스탬프</span>
                       {currentStamps >= 10 && (
                         <div className="text-xs text-green-600 font-semibold mt-1">
-                          ({Math.floor(currentStamps / 10)} free burger{Math.floor(currentStamps / 10) > 1 ? 's' : ''} available)
+                          (무료 버거 {Math.floor(currentStamps / 10)}개 사용 가능)
                         </div>
                       )}
                   </div>
@@ -324,7 +324,7 @@ const Index = () => {
                           isAnimating ? 'animate-pulse scale-110' : ''
                         }`}
                       >
-                        {stampNumber === 10 && hasFullSet ? 'FREE' : !isFilled ? stampNumber.toString().padStart(2, '0') : (
+                        {stampNumber === 10 && hasFullSet ? '무료' : !isFilled ? stampNumber.toString().padStart(2, '0') : (
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
                           </svg>
@@ -335,7 +335,7 @@ const Index = () => {
                 </div>
                 {currentStamps >= 10 && (
                   <p className="text-xs text-center text-gray-500 mt-2">
-                    Progress toward next free burger: {currentStamps % 10}/10
+                    다음 무료 버거까지: {currentStamps % 10}/10
                   </p>
                 )}
 
@@ -344,8 +344,8 @@ const Index = () => {
                   <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
                     <div className="text-center animate-bounce">
                       <div className="text-8xl mb-4">🎉</div>
-                      <div className="text-4xl font-black text-burger-accent-red">FREE BURGER!</div>
-                      <div className="text-xl text-gray-700 mt-2">You've earned {Math.floor((selectedUser?.stamps || 0) / 10)} free burger{Math.floor((selectedUser?.stamps || 0) / 10) > 1 ? 's' : ''}!</div>
+                      <div className="text-4xl font-black text-burger-accent-red">무료 버거!</div>
+                      <div className="text-xl text-gray-700 mt-2">무료 버거 {Math.floor((selectedUser?.stamps || 0) / 10)}개를 획득하셨습니다!</div>
                     </div>
                   </div>
                 )}
@@ -355,14 +355,14 @@ const Index = () => {
                     <div className="bg-yellow-50 border-2 border-yellow-400 rounded-xl p-4 mb-3 animate-pulse">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-2xl">🎉</span>
-                        <p className="text-sm font-black text-yellow-800">FREE BURGER AVAILABLE!</p>
+                        <p className="text-sm font-black text-yellow-800">무료 버거 사용 가능!</p>
                       </div>
-                      <p className="text-xs text-yellow-700">You have {selectedUser.stamps} stamps! Visit the store to redeem your free burger.</p>
+                      <p className="text-xs text-yellow-700">스탬프 {selectedUser.stamps}개가 있습니다! 매장에서 무료 버거를 사용하세요.</p>
                     </div>
                   ) : null}
                   <div className="flex justify-between items-center">
-                    <p className="text-[10px] text-gray-400 font-bold uppercase">10th Burger is FREE!</p>
-                    <div className="bg-burger-accent-red/10 text-burger-accent-red text-[10px] font-black px-2 py-1 rounded">VIP REWARD</div>
+                    <p className="text-[10px] text-gray-400 font-bold uppercase">10번째 버거는 무료!</p>
+                    <div className="bg-burger-accent-red/10 text-burger-accent-red text-[10px] font-black px-2 py-1 rounded">VIP 혜택</div>
                   </div>
                 </div>
               </div>
@@ -371,8 +371,8 @@ const Index = () => {
             {/* Right Side - Input */}
             <div className="w-full md:w-2/5 p-8 flex flex-col justify-center">
               <div className="text-center md:text-left mb-8">
-                <h1 className="text-2xl font-bold text-gray-800">Welcome Back!</h1>
-                <p className="text-gray-500">Enter your last 4 digits</p>
+                <h1 className="text-2xl font-bold text-gray-800">다시 오신 것을 환영합니다!</h1>
+                <p className="text-gray-500">전화번호 뒷자리 4자리를 입력하세요</p>
               </div>
 
               <div className="relative mb-6">
@@ -385,10 +385,10 @@ const Index = () => {
                   onKeyDown={handleKeyDown}
                   placeholder="0000"
                   className="w-full text-center text-5xl font-bold tracking-[0.2em] py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-burger-accent-red focus:bg-white focus:outline-none transition-all"
-                  aria-label="Enter last 4 digits of phone number"
+                  aria-label="전화번호 뒷자리 4자리 입력"
                 />
                 {phoneDigits.length === 4 && (
-                  <p className="text-xs text-gray-400 mt-2 text-center">Press Enter to select</p>
+                  <p className="text-xs text-gray-400 mt-2 text-center">Enter 키를 눌러 선택하세요</p>
                 )}
               </div>
 
@@ -398,16 +398,16 @@ const Index = () => {
                     <svg className="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                     </svg>
-                    <p className="text-sm">Find your account</p>
+                    <p className="text-sm">계정 찾기</p>
                   </div>
                 )}
 
                 {phoneDigits.length > 0 && phoneDigits.length < 4 && (
-                  <p className="text-center text-burger-accent-red animate-pulse text-sm">Searching...</p>
+                  <p className="text-center text-burger-accent-red animate-pulse text-sm">검색 중...</p>
                 )}
 
                 {isSearching && phoneDigits.length === 4 && (
-                  <p className="text-center text-burger-accent-red animate-pulse text-sm">Searching...</p>
+                  <p className="text-center text-burger-accent-red animate-pulse text-sm">검색 중...</p>
                 )}
 
                 {!isSearching && phoneDigits.length === 4 && matchedUsers.length > 0 && (
@@ -420,7 +420,7 @@ const Index = () => {
                       >
                         <div className="text-left">
                           <p className="font-bold text-gray-800">{user.name}</p>
-                          <p className="text-[10px] text-gray-400 uppercase tracking-tighter">Click to select</p>
+                          <p className="text-[10px] text-gray-400 uppercase tracking-tighter">클릭하여 선택</p>
                         </div>
                         <span className="text-burger-accent-red font-black group-hover:translate-x-1 transition-transform">→</span>
                       </button>
@@ -433,7 +433,7 @@ const Index = () => {
                     onClick={() => setShowRegisterModal(true)}
                     className="w-full p-4 bg-burger-accent-red text-white font-bold rounded-2xl shadow-lg shadow-burger-accent-red/30 hover:scale-[1.02] transition-all"
                   >
-                    Create Account with "{phoneDigits}" ✨
+                    "{phoneDigits}"로 계정 만들기 ✨
                   </button>
                 )}
               </div>
@@ -445,12 +445,12 @@ const Index = () => {
         {showRegisterModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Create Account</h3>
-              <p className="text-gray-500 text-sm mb-6">Register with your name and phone number</p>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">계정 만들기</h3>
+              <p className="text-gray-500 text-sm mb-6">이름과 전화번호로 등록하세요</p>
               
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="reg-name" className="block text-sm font-medium text-black mb-2">Name</label>
+                  <label htmlFor="reg-name" className="block text-sm font-medium text-black mb-2">이름</label>
                   <input
                     type="text"
                     id="reg-name"
@@ -459,13 +459,13 @@ const Index = () => {
                       setRegisterName(e.target.value);
                       setRegisterError('');
                     }}
-                    placeholder="Enter your name"
+                    placeholder="이름을 입력하세요"
                     className="w-full px-4 py-3 border border-black/20 rounded-lg outline-none focus:border-burger-accent-red focus:ring-2 focus:ring-burger-accent-red/10 text-black transition-all duration-300"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="reg-phone" className="block text-sm font-medium text-black mb-2">Phone Number</label>
+                  <label htmlFor="reg-phone" className="block text-sm font-medium text-black mb-2">전화번호</label>
                   <input
                     type="tel"
                     id="reg-phone"
@@ -477,7 +477,7 @@ const Index = () => {
                     placeholder="010-1234-5678"
                     className="w-full px-4 py-3 border border-black/20 rounded-lg outline-none focus:border-burger-accent-red focus:ring-2 focus:ring-burger-accent-red/10 text-black transition-all duration-300"
                   />
-                  <p className="text-xs text-gray-400 mt-1">Last 4 digits: {registerPhone.replace(/\D/g, '').slice(-4) || '____'}</p>
+                  <p className="text-xs text-gray-400 mt-1">뒷자리 4자리: {registerPhone.replace(/\D/g, '').slice(-4) || '____'}</p>
                 </div>
 
                 {registerError && (
@@ -496,14 +496,14 @@ const Index = () => {
                     }}
                     className="flex-1 px-4 py-3 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition-all"
                   >
-                    Cancel
+                    취소
                   </button>
                   <button
                     onClick={handleRegister}
                     disabled={isRegistering}
                     className="flex-1 px-4 py-3 bg-burger-accent-red text-white rounded-lg font-semibold hover:bg-burger-accent-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
-                    {isRegistering ? 'Registering...' : 'Register'}
+                    {isRegistering ? '등록 중...' : '등록'}
                   </button>
                 </div>
               </div>

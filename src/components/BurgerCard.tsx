@@ -7,7 +7,7 @@ interface BurgerCardProps {
 
 const BurgerCard = memo(({ item }: BurgerCardProps) => {
   return (
-    <div className="rounded-2xl flex flex-col overflow-hidden border-[3px] border-burger-accent-red bg-black shadow-lg hover:shadow-xl transition-all duration-300 group hover:scale-[1.02]">
+    <div className="rounded-2xl flex flex-col overflow-hidden border border-gray-300 bg-white shadow-lg hover:shadow-xl transition-all duration-300 group hover:scale-[1.02]">
       {/* Image Section */}
       <div className="relative aspect-[4/3] overflow-hidden bg-white p-4">
         <img
@@ -21,8 +21,8 @@ const BurgerCard = memo(({ item }: BurgerCardProps) => {
       {/* Content Section */}
       <div className="p-6 flex flex-col justify-between flex-1">
         <div>
-          <h3 className="text-xl xl:text-2xl font-bold text-white mb-2 leading-tight">{item.name}</h3>
-          <p className="text-xs text-white/80 mb-4 leading-relaxed">{item.description}</p>
+          <h3 className="text-xl xl:text-2xl font-bold text-black mb-2 leading-tight">{item.name}</h3>
+          <p className="text-xs text-gray-600 mb-4 leading-relaxed">{item.description}</p>
         </div>
         <div className="pt-4 border-t border-burger-accent-red/30">
           <div className="flex items-center gap-1">

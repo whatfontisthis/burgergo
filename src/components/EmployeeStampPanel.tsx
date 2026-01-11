@@ -109,9 +109,9 @@ const EmployeeStampPanel = () => {
         // Show free burger options if user now has 10+ stamps and didn't before
         if (updatedUser.stamps >= 10 && updatedUser.free_burger_available && selectedUser.stamps < 10) {
           setShowFreeBurgerOptions(true);
-          setSuccessMessage(`🎉 Stamp added! ${updatedUser.name} now has ${updatedUser.stamps} stamps - FREE BURGER AVAILABLE!`);
+          setSuccessMessage(`🎉 스탬프 추가됨! ${updatedUser.name}님은 현재 ${updatedUser.stamps}개의 스탬프를 보유하고 있습니다 - 무료 버거 사용 가능!`);
         } else {
-          setSuccessMessage(`✓ Stamp added! ${updatedUser.name} now has ${updatedUser.stamps} stamps.`);
+          setSuccessMessage(`✓ 스탬프 추가됨! ${updatedUser.name}님은 현재 ${updatedUser.stamps}개의 스탬프를 보유하고 있습니다.`);
           setTimeout(() => setSuccessMessage(''), 3000);
         }
       } else {
@@ -123,18 +123,18 @@ const EmployeeStampPanel = () => {
       const errorMessage = error?.message || error?.toString() || 'Unknown error occurred';
       
       // Better error messages
-      let userFriendlyError = 'Failed to add stamp. ';
+      let userFriendlyError = '스탬프 추가 실패. ';
       if (errorMessage.includes('network') || errorMessage.includes('fetch')) {
-        userFriendlyError += 'Please check your internet connection and try again.';
+        userFriendlyError += '인터넷 연결을 확인하고 다시 시도하세요.';
       } else if (errorMessage.includes('permission') || errorMessage.includes('RLS')) {
-        userFriendlyError += 'Permission denied. Please check database policies.';
+        userFriendlyError += '권한이 거부되었습니다. 데이터베이스 정책을 확인하세요.';
       } else if (errorMessage.includes('not found')) {
-        userFriendlyError += 'User not found. Please refresh and try again.';
+        userFriendlyError += '사용자를 찾을 수 없습니다. 새로고침하고 다시 시도하세요.';
       } else {
         userFriendlyError += errorMessage;
       }
       
-      alert(`${userFriendlyError}\n\nIf the problem persists, check:\n1. Supabase connection\n2. Browser console for details\n3. RLS policies in Supabase`);
+      alert(`${userFriendlyError}\n\n문제가 계속되면 다음을 확인하세요:\n1. Supabase 연결\n2. 브라우저 콘솔의 세부 정보\n3. Supabase의 RLS 정책`);
     } finally {
       setIsAddingStamp(false);
     }
@@ -150,11 +150,11 @@ const EmployeeStampPanel = () => {
         setSelectedUser(updatedUser);
         setShowFreeBurgerOptions(false);
         const stampsUsed = selectedUser.stamps - updatedUser.stamps;
-        setSuccessMessage(`Free burger redeemed! ${selectedUser.name} used ${stampsUsed} stamps. Remaining: ${updatedUser.stamps} stamps.`);
+        setSuccessMessage(`무료 버거 사용됨! ${selectedUser.name}님이 스탬프 ${stampsUsed}개를 사용했습니다. 남은 스탬프: ${updatedUser.stamps}개.`);
         setTimeout(() => setSuccessMessage(''), 5000);
       }
     } catch (error: any) {
-      alert('Error using free burger: ' + (error.message || 'Please try again'));
+      alert('무료 버거 사용 오류: ' + (error.message || '다시 시도하세요'));
     } finally {
       setIsAddingStamp(false);
     }
@@ -169,11 +169,11 @@ const EmployeeStampPanel = () => {
       if (updatedUser) {
         setSelectedUser(updatedUser);
         setShowFreeBurgerOptions(false);
-        setSuccessMessage(`Purchase recorded! ${updatedUser.name} still has free burger available.`);
+        setSuccessMessage(`구매 기록됨! ${updatedUser.name}님은 여전히 무료 버거를 사용할 수 있습니다.`);
         setTimeout(() => setSuccessMessage(''), 5000);
       }
     } catch (error: any) {
-      alert('Error recording purchase: ' + (error.message || 'Please try again'));
+      alert('구매 기록 오류: ' + (error.message || '다시 시도하세요'));
     } finally {
       setIsAddingStamp(false);
     }
@@ -225,8 +225,8 @@ const EmployeeStampPanel = () => {
     <div className="w-full max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 p-8">
       <div className="mb-6 flex justify-between items-start">
         <div>
-          <h2 className="text-3xl font-black text-burger-accent-red mb-2">Employee Stamp Panel</h2>
-          <p className="text-gray-500">Search by name or last 4 digits of phone number</p>
+          <h2 className="text-3xl font-black text-burger-accent-red mb-2">직원 스탬프 패널</h2>
+          <p className="text-gray-500">이름 또는 전화번호 뒷자리 4자리로 검색</p>
         </div>
         <button
           onClick={() => {
@@ -235,7 +235,7 @@ const EmployeeStampPanel = () => {
           }}
           className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all"
         >
-          Logout
+          로그아웃
         </button>
       </div>
 
@@ -245,7 +245,7 @@ const EmployeeStampPanel = () => {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Enter name or last 4 digits (e.g., 5678)"
+          placeholder="이름 또는 뒷자리 4자리 입력 (예: 5678)"
           className="w-full px-6 py-4 text-lg border-2 border-gray-200 rounded-xl focus:border-burger-accent-red focus:outline-none transition-all"
         />
       </div>
@@ -253,18 +253,18 @@ const EmployeeStampPanel = () => {
       <div className="grid md:grid-cols-2 gap-6">
         {/* Left: Search Results */}
         <div>
-          <h3 className="text-lg font-bold text-gray-800 mb-4">Search Results</h3>
+          <h3 className="text-lg font-bold text-gray-800 mb-4">검색 결과</h3>
           <div className="space-y-2 max-h-[400px] overflow-y-auto">
             {isSearching && (
-              <p className="text-center text-gray-400 py-8">Searching...</p>
+              <p className="text-center text-gray-400 py-8">검색 중...</p>
             )}
 
             {!isSearching && searchQuery.trim().length < 2 && (
-              <p className="text-center text-gray-400 py-8">Type at least 2 characters to search</p>
+              <p className="text-center text-gray-400 py-8">최소 2자 이상 입력하세요</p>
             )}
 
             {!isSearching && searchQuery.trim().length >= 2 && searchResults.length === 0 && (
-              <p className="text-center text-gray-400 py-8">No users found</p>
+              <p className="text-center text-gray-400 py-8">사용자를 찾을 수 없습니다</p>
             )}
 
             {searchResults.map((user) => (
@@ -280,11 +280,11 @@ const EmployeeStampPanel = () => {
                 <div className="flex justify-between items-center">
                   <div>
                     <p className="font-bold text-gray-800">{user.name}</p>
-                    <p className="text-sm text-gray-500">Phone: ••••{user.phone_last4}</p>
+                    <p className="text-sm text-gray-500">전화: ••••{user.phone_last4}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-black text-burger-accent-red">{user.stamps}</p>
-                    <p className="text-xs text-gray-400">/10 stamps</p>
+                    <p className="text-xs text-gray-400">/10 스탬프</p>
                   </div>
                 </div>
               </button>
@@ -294,25 +294,25 @@ const EmployeeStampPanel = () => {
 
         {/* Right: Selected User & Actions */}
         <div>
-          <h3 className="text-lg font-bold text-gray-800 mb-4">Selected User</h3>
+          <h3 className="text-lg font-bold text-gray-800 mb-4">선택된 사용자</h3>
           
           {selectedUser ? (
             <div className="bg-gray-50 rounded-2xl p-6 border-2 border-gray-200">
               <div className="mb-6">
                 <h4 className="text-2xl font-bold text-gray-800 mb-1">{selectedUser.name}</h4>
-                <p className="text-sm text-gray-500">Phone: ••••{selectedUser.phone_last4}</p>
+                <p className="text-sm text-gray-500">전화: ••••{selectedUser.phone_last4}</p>
               </div>
 
               {/* Stamp Count */}
               <div className="mb-6">
                 <div className="flex justify-between items-end mb-4">
-                  <span className="text-gray-600 font-medium">Current Stamps</span>
+                  <span className="text-gray-600 font-medium">현재 스탬프</span>
                   <div className="text-right">
                     <span className="text-4xl font-black text-burger-accent-red">{selectedUser.stamps}</span>
-                    <span className="text-gray-400 font-bold ml-1">stamps</span>
+                    <span className="text-gray-400 font-bold ml-1">스탬프</span>
                     {selectedUser.stamps >= 10 && (
                       <div className="text-xs text-green-600 font-semibold mt-1">
-                        ({Math.floor(selectedUser.stamps / 10)} free burger{Math.floor(selectedUser.stamps / 10) > 1 ? 's' : ''} available)
+                        (무료 버거 {Math.floor(selectedUser.stamps / 10)}개 사용 가능)
                       </div>
                     )}
                   </div>
@@ -336,7 +336,7 @@ const EmployeeStampPanel = () => {
                             : 'border-gray-300 text-gray-400'
                         } ${isAnimating ? 'animate-pulse scale-125 ring-2 ring-burger-accent-red' : ''}`}
                       >
-                        {stampNumber === 10 && hasFullSet ? 'FREE' : !isFilled ? stampNumber.toString().padStart(2, '0') : (
+                        {stampNumber === 10 && hasFullSet ? '무료' : !isFilled ? stampNumber.toString().padStart(2, '0') : (
                           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
                           </svg>
@@ -347,7 +347,7 @@ const EmployeeStampPanel = () => {
                 </div>
                 {selectedUser.stamps >= 10 && (
                   <p className="text-xs text-center text-gray-500 mt-2">
-                    Progress toward next free burger: {selectedUser.stamps % 10}/10
+                    다음 무료 버거까지: {selectedUser.stamps % 10}/10
                   </p>
                 )}
               </div>
@@ -357,7 +357,7 @@ const EmployeeStampPanel = () => {
                 onClick={() => setShowConfirm(true)}
                 className="w-full py-4 bg-burger-accent-red text-white font-bold rounded-xl hover:bg-burger-accent-dark transition-all shadow-lg"
               >
-                Add Stamp (+1)
+                스탬프 추가 (+1)
               </button>
               
               {selectedUser.stamps >= 10 && (
@@ -365,7 +365,7 @@ const EmployeeStampPanel = () => {
                   onClick={() => setShowFreeBurgerOptions(true)}
                   className="w-full mt-3 py-4 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 transition-all shadow-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
                 >
-                  Redeem Free Burger (Use 10 Stamps)
+                  무료 버거 사용 (스탬프 10개 사용)
                 </button>
               )}
 
@@ -382,15 +382,15 @@ const EmployeeStampPanel = () => {
               {/* Activity Log Display */}
               {showActivityLog && activityLog.length > 0 && (
                 <div className="mt-4 p-4 bg-white rounded-lg border border-gray-200 max-h-48 overflow-y-auto">
-                  <h4 className="text-sm font-bold text-gray-800 mb-2">Recent Activity</h4>
+                  <h4 className="text-sm font-bold text-gray-800 mb-2">최근 활동</h4>
                   <div className="space-y-2">
                     {activityLog.map((entry) => (
                       <div key={entry.id} className="text-xs text-gray-600 flex justify-between items-center py-1 border-b border-gray-100 last:border-0">
                         <span>
-                          {entry.added_by === 'employee' ? '📝 Stamp added' : 
-                           entry.added_by === 'free_burger_used' ? '🎁 Free burger redeemed' :
-                           entry.added_by === 'purchase_with_free_available' ? '💰 Purchase recorded' :
-                           '📌 Activity'}
+                          {entry.added_by === 'employee' ? '📝 스탬프 추가됨' : 
+                           entry.added_by === 'free_burger_used' ? '🎁 무료 버거 사용됨' :
+                           entry.added_by === 'purchase_with_free_available' ? '💰 구매 기록됨' :
+                           '📌 활동'}
                         </span>
                         <span className="text-gray-400">
                           {new Date(entry.created_at).toLocaleDateString()}
@@ -422,11 +422,11 @@ const EmployeeStampPanel = () => {
       {showFreeBurgerOptions && selectedUser && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">🎉 Free Burger Available!</h3>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">🎉 무료 버거 사용 가능!</h3>
             <p className="text-gray-600 mb-6">
-              <strong>{selectedUser.name}</strong> has 10 stamps and is eligible for a FREE burger.
+              <strong>{selectedUser.name}</strong>님은 스탬프 10개를 보유하고 있어 무료 버거를 받을 수 있습니다.
               <br /><br />
-              How would you like to proceed?
+              어떻게 진행하시겠습니까?
             </p>
             <div className="space-y-3">
               <button
@@ -434,21 +434,21 @@ const EmployeeStampPanel = () => {
                 disabled={isAddingStamp}
                 className="w-full py-4 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
-                {isAddingStamp ? 'Processing...' : '✓ Use Free Burger (Reset to 0)'}
+                {isAddingStamp ? '처리 중...' : '✓ 무료 버거 사용 (스탬프 10개 차감)'}
               </button>
               <button
                 onClick={handleBuyWithFreeAvailable}
                 disabled={isAddingStamp}
                 className="w-full py-4 bg-burger-accent-red text-white font-bold rounded-xl hover:bg-burger-accent-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
-                {isAddingStamp ? 'Processing...' : '💰 Customer Buys (Keep Free Burger)'}
+                {isAddingStamp ? '처리 중...' : '💰 고객 구매 (무료 버거 유지)'}
               </button>
               <button
                 onClick={() => setShowFreeBurgerOptions(false)}
                 disabled={isAddingStamp}
                 className="w-full py-3 border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50 disabled:opacity-50 transition-all"
               >
-                Cancel
+                취소
               </button>
             </div>
           </div>
@@ -459,11 +459,11 @@ const EmployeeStampPanel = () => {
       {showFreeBurgerOptions && selectedUser && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">🎉 Free Burger Available!</h3>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">🎉 무료 버거 사용 가능!</h3>
             <p className="text-gray-600 mb-6">
-              <strong>{selectedUser.name}</strong> has 10 stamps and is eligible for a FREE burger.
+              <strong>{selectedUser.name}</strong>님은 스탬프 10개를 보유하고 있어 무료 버거를 받을 수 있습니다.
               <br /><br />
-              How would you like to proceed?
+              어떻게 진행하시겠습니까?
             </p>
             <div className="space-y-3">
               <button
@@ -471,21 +471,21 @@ const EmployeeStampPanel = () => {
                 disabled={isAddingStamp}
                 className="w-full py-4 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
-                {isAddingStamp ? 'Processing...' : '✓ Use Free Burger (Reset to 0)'}
+                {isAddingStamp ? '처리 중...' : '✓ 무료 버거 사용 (스탬프 10개 차감)'}
               </button>
               <button
                 onClick={handleBuyWithFreeAvailable}
                 disabled={isAddingStamp}
                 className="w-full py-4 bg-burger-accent-red text-white font-bold rounded-xl hover:bg-burger-accent-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
-                {isAddingStamp ? 'Processing...' : '💰 Customer Buys (Keep Free Burger)'}
+                {isAddingStamp ? '처리 중...' : '💰 고객 구매 (무료 버거 유지)'}
               </button>
               <button
                 onClick={() => setShowFreeBurgerOptions(false)}
                 disabled={isAddingStamp}
                 className="w-full py-3 border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50 disabled:opacity-50 transition-all"
               >
-                Cancel
+                취소
               </button>
             </div>
           </div>
@@ -496,25 +496,25 @@ const EmployeeStampPanel = () => {
       {showConfirm && selectedUser && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">Add Stamp?</h3>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">스탬프를 추가하시겠습니까?</h3>
             <p className="text-gray-600 mb-6">
-              Add 1 stamp to <strong>{selectedUser.name}</strong>?
+              <strong>{selectedUser.name}</strong>님에게 스탬프 1개를 추가하시겠습니까?
               <br />
-              Current: {selectedUser.stamps}/10 → New: {Math.min(selectedUser.stamps + 1, 10)}/10
+              현재: {selectedUser.stamps}개 → 추가 후: {selectedUser.stamps + 1}개
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setShowConfirm(false)}
                 className="flex-1 px-4 py-3 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition-all"
               >
-                Cancel
+                취소
               </button>
               <button
                 onClick={handleAddStamp}
                 disabled={isAddingStamp}
                 className="flex-1 px-4 py-3 bg-burger-accent-red text-white rounded-lg font-semibold hover:bg-burger-accent-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
-                {isAddingStamp ? 'Adding...' : 'Confirm'}
+                {isAddingStamp ? '추가 중...' : '확인'}
               </button>
             </div>
           </div>
