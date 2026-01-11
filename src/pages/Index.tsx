@@ -192,70 +192,70 @@ const Index = () => {
     <div className="bg-burger-primary text-burger-primary-text min-w-0">
       <div className="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-16 xl:px-24 2xl:px-32">
       {/* Header */}
-      <header className="py-[40px] flex justify-between items-center relative z-50 border-b border-black/10">
+      <header className="py-4 md:py-[40px] flex justify-between items-center relative z-50 border-b border-black/10">
         <div className="flex items-center">
-          <div className="text-burger-accent-red text-xl font-bold uppercase tracking-wider">{STORE_INFO.name}</div>
+          <div className="text-burger-accent-red text-lg md:text-xl font-bold uppercase tracking-wider">버거고</div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="pt-8 pb-12 flex justify-between items-center gap-12 relative min-h-[60vh]">
-        <div className="flex-0">
-          <h1 className="text-burger-accent-red font_archivo_black text-5xl xl:text-8xl leading-none mb-6">
+      <section className="pt-4 md:pt-8 pb-8 md:pb-12 flex flex-col md:flex-row md:justify-between md:items-center gap-6 md:gap-12 relative min-h-[auto] md:min-h-[60vh]">
+        <div className="flex-0 w-full md:w-auto">
+          <h1 className="text-burger-accent-red font_archivo_black text-3xl sm:text-4xl md:text-5xl xl:text-8xl leading-tight md:leading-none mb-4 md:mb-6">
             Let's<br />Grab a Bite, BURGERGO!
           </h1>
-          <p className="text-burger-primary-text text-lg xl:text-xl font-medium xl:w-[500px] w-[400px] mt-6 mb-6">
+          <p className="text-burger-primary-text text-base md:text-lg xl:text-xl font-medium w-full md:w-[400px] xl:w-[500px] mt-4 md:mt-6 mb-4 md:mb-6">
             A place to grab delicious handmade burgers
           </p>
-          <div className="flex gap-4 mt-8">
+          <div className="flex gap-4 mt-6 md:mt-8">
             <a 
               href="https://s.baemin.com/IG000knFx4NgA" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="bg-burger-accent-red text-white px-8 py-3 rounded-full font-semibold border border-burger-accent-red hover:bg-burger-accent-dark hover:scale-105 hover:shadow-lg transition-all duration-300 inline-block text-center"
+              className="bg-burger-accent-red text-white px-6 md:px-8 py-3 md:py-3 rounded-full font-semibold border border-burger-accent-red hover:bg-burger-accent-dark active:scale-95 md:hover:scale-105 hover:shadow-lg transition-all duration-300 inline-block text-center text-sm md:text-base min-h-[44px] flex items-center justify-center"
             >
               주문하기
             </a>
           </div>
         </div>
 
-        <div className="flex justify-center gap-6 max-w-[1060px] w-[97%]">
-          <img className="w-1/2 h-auto rounded-2xl border-4 border-burger-accent-red hover:scale-105 hover:brightness-110 transition-all duration-300 cursor-pointer object-cover shadow-xl" src="/images/burgergo-poster.jpg" alt="BURGERGO" />
-          <img className="w-1/2 h-auto rounded-2xl border-4 border-burger-accent-red hover:scale-105 hover:brightness-110 transition-all duration-300 cursor-pointer object-cover shadow-xl" src="/images/burgergo-poster2.jpg" alt="BURGERGO" />
+        <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-6 w-full md:max-w-[1060px] md:w-[97%]">
+          <img className="w-full md:w-1/2 h-auto rounded-xl md:rounded-2xl border-2 md:border-4 border-burger-accent-red active:scale-95 md:hover:scale-105 hover:brightness-110 transition-all duration-300 cursor-pointer object-cover shadow-xl" src="/images/burgergo-poster.jpg" alt="BURGERGO" />
+          <img className="w-full md:w-1/2 h-auto rounded-xl md:rounded-2xl border-2 md:border-4 border-burger-accent-red active:scale-95 md:hover:scale-105 hover:brightness-110 transition-all duration-300 cursor-pointer object-cover shadow-xl" src="/images/burgergo-poster2.jpg" alt="BURGERGO" />
         </div>
       </section>
 
       {/* Info Bar */}
-      <section className="mb-16">
+      <section className="mb-8 md:mb-16 px-2">
         <div className="flex justify-center items-center">
-          <div className="bg-burger-accent-red rounded-[3rem] py-[12px] px-[20px] shadow-xl flex items-center gap-1">
-            <div className="flex-1 flex items-start px-3 py-2 gap-3 xl:px-4 xl:py-3 w-full min-w-[200px] xl:min-w-[280px] wrap-nowrap cursor-pointer hover:bg-burger-accent-dark rounded-2xl transition-all duration-300">
-              <div className="w-10 h-10 xl:w-12 xl:h-12 flex items-center justify-center text-white flex-shrink-0">
+          <div className="bg-burger-accent-red rounded-2xl md:rounded-[3rem] py-3 md:py-[12px] px-4 md:px-[20px] shadow-xl flex flex-col md:flex-row items-stretch md:items-center gap-2 md:gap-1 w-full max-w-full">
+            <div className="flex-1 flex items-start px-3 py-3 md:py-2 gap-3 xl:px-4 xl:py-3 w-full cursor-pointer active:bg-burger-accent-dark md:hover:bg-burger-accent-dark rounded-xl md:rounded-2xl transition-all duration-300">
+              <div className="w-10 h-10 md:w-10 md:h-10 xl:w-12 xl:h-12 flex items-center justify-center text-white flex-shrink-0">
                 <LocationIcon className="w-6 h-6 xl:w-7 xl:h-7" />
               </div>
-                <div className="flex-1">
-                  <div className="text-white/80 text-xs xl:text-sm mb-1">Location</div>
-                  <div className="text-white font-medium text-xs xl:text-sm mb-1">{STORE_INFO.address}</div>
-                  <div className="text-white/90 font-medium text-xs mt-1.5 leading-relaxed whitespace-pre-line">{STORE_INFO.locationDetails}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-white/80 text-xs md:text-xs xl:text-sm mb-1 font-semibold">위치</div>
+                  <div className="text-white font-medium text-sm md:text-xs xl:text-sm mb-1 break-words">{STORE_INFO.address}</div>
+                  <div className="text-white/90 font-medium text-xs md:text-xs mt-1.5 leading-relaxed whitespace-pre-line break-words">{STORE_INFO.locationDetails}</div>
                 </div>
             </div>
 
-            <div className="flex-1 flex items-start px-3 py-2 gap-3 xl:px-4 xl:py-3 w-full min-w-[400px] xl:min-w-[500px] cursor-pointer hover:bg-burger-accent-dark rounded-2xl transition-all duration-300">
-              <div className="w-10 h-10 xl:w-12 xl:h-12 flex items-center justify-center text-white flex-shrink-0">
+            <div className="flex-1 flex items-start px-3 py-3 md:py-2 gap-3 xl:px-4 xl:py-3 w-full cursor-pointer active:bg-burger-accent-dark md:hover:bg-burger-accent-dark rounded-xl md:rounded-2xl transition-all duration-300">
+              <div className="w-10 h-10 md:w-10 md:h-10 xl:w-12 xl:h-12 flex items-center justify-center text-white flex-shrink-0">
                 <CalendarIcon className="w-6 h-6 xl:w-7 xl:h-7" />
               </div>
-              <div className="flex-1">
-                <div className="text-white/80 text-xs xl:text-sm mb-1">영업시간</div>
-                <div className="flex flex-col gap-y-1">
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                    <div className="text-white font-medium text-xs xl:text-sm whitespace-nowrap">
+              <div className="flex-1 min-w-0">
+                <div className="text-white/80 text-xs md:text-xs xl:text-sm mb-1 font-semibold">영업시간</div>
+                <div className="flex flex-col gap-y-1.5 md:gap-y-1">
+                  <div className="flex flex-col md:flex-row md:flex-wrap md:items-center gap-y-1 md:gap-x-4">
+                    <div className="text-white font-medium text-sm md:text-xs xl:text-sm">
                       <span className="font-semibold">화-토:</span> {STORE_INFO.hours.tueSat} <span className="text-white/90 text-xs">(마지막 주문: {STORE_INFO.hours.lastOrder.tueSat})</span>
                     </div>
-                    <div className="text-white font-medium text-xs xl:text-sm whitespace-nowrap">
+                    <div className="text-white font-medium text-sm md:text-xs xl:text-sm">
                       <span className="font-semibold">일:</span> {STORE_INFO.hours.sun} <span className="text-white/90 text-xs">(마지막 주문: {STORE_INFO.hours.lastOrder.sun})</span>
                     </div>
                   </div>
-                  <div className="text-white/90 font-medium text-xs xl:text-sm whitespace-nowrap">
+                  <div className="text-white/90 font-medium text-sm md:text-xs xl:text-sm">
                     <span className="font-semibold">월:</span> {STORE_INFO.hours.mon === 'Closed' ? '휴무' : STORE_INFO.hours.mon}
                   </div>
                 </div>
@@ -266,13 +266,13 @@ const Index = () => {
       </section>
 
       {/* Popular Burgers Section */}
-      <section className="mb-16 bg-white">
-        <div className="mb-10">
-          <h2 className="text-black text-4xl xl:text-6xl font_archivo_black capitalize leading-tight mb-2">Our Popular Menu</h2>
-          <p className="text-black/60 text-sm xl:text-base">Discover our signature burgers made with fresh ingredients</p>
+      <section className="mb-12 md:mb-16 bg-white px-2">
+        <div className="mb-6 md:mb-10">
+          <h2 className="text-black text-2xl sm:text-3xl md:text-4xl xl:text-6xl font_archivo_black capitalize leading-tight mb-2">Our Popular Menu</h2>
+          <p className="text-black/60 text-xs sm:text-sm md:text-sm xl:text-base">Discover our signature burgers made with fresh ingredients</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 xl:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6 xl:gap-8">
           {POPULAR_MENU_ITEMS.map((item) => (
             <BurgerCard key={item.id} item={item} />
           ))}
@@ -280,13 +280,13 @@ const Index = () => {
       </section>
 
       {/* Stamp Signup Section */}
-      <section className="mb-16">
+      <section className="mb-12 md:mb-16 px-2">
         <div className="flex justify-center">
-          <div className="w-full max-w-5xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 flex flex-col md:flex-row min-h-[500px]">
+          <div className="w-full max-w-5xl bg-white rounded-2xl md:rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 flex flex-col md:flex-row min-h-[400px] md:min-h-[500px]">
             
             {/* Left Side - Stamp Grid */}
-            <div className="w-full md:w-3/5 p-8 bg-gray-50 flex flex-col justify-center items-center border-b md:border-b-0 md:border-r border-gray-100">
-              <div className="w-full max-w-md bg-white p-6 rounded-3xl shadow-sm border border-gray-200">
+            <div className="w-full md:w-3/5 p-4 md:p-8 bg-gray-50 flex flex-col justify-center items-center border-b md:border-b-0 md:border-r border-gray-100">
+              <div className="w-full max-w-md bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border border-gray-200">
                 <div className="flex justify-between items-end mb-6">
                   <div>
                     <h2 className="text-2xl font-black text-burger-accent-red italic leading-none">버거고!</h2>
@@ -369,13 +369,13 @@ const Index = () => {
             </div>
 
             {/* Right Side - Input */}
-            <div className="w-full md:w-2/5 p-8 flex flex-col justify-center">
-              <div className="text-center md:text-left mb-8">
-                <h1 className="text-2xl font-bold text-gray-800">다시 오신 것을 환영합니다!</h1>
-                <p className="text-gray-500">전화번호 뒷자리 4자리를 입력하세요</p>
+            <div className="w-full md:w-2/5 p-4 md:p-8 flex flex-col justify-center">
+              <div className="text-center md:text-left mb-6 md:mb-8">
+                <h1 className="text-xl md:text-2xl font-bold text-gray-800">다시 오신 것을 환영합니다!</h1>
+                <p className="text-gray-500 text-sm md:text-base mt-1">전화번호 뒷자리 4자리를 입력하세요</p>
               </div>
 
-              <div className="relative mb-6">
+              <div className="relative mb-4 md:mb-6">
                 <input 
                   ref={phoneInputRef}
                   type="tel" 
@@ -384,7 +384,7 @@ const Index = () => {
                   onChange={handleDigitChange}
                   onKeyDown={handleKeyDown}
                   placeholder="0000"
-                  className="w-full text-center text-5xl font-bold tracking-[0.2em] py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-burger-accent-red focus:bg-white focus:outline-none transition-all"
+                  className="w-full text-center text-4xl md:text-5xl font-bold tracking-[0.2em] py-3 md:py-4 bg-gray-50 border-2 border-gray-100 rounded-xl md:rounded-2xl focus:border-burger-accent-red focus:bg-white focus:outline-none transition-all min-h-[60px] md:min-h-[80px]"
                   aria-label="전화번호 뒷자리 4자리 입력"
                 />
                 {phoneDigits.length === 4 && (
@@ -431,7 +431,7 @@ const Index = () => {
                 {!isSearching && phoneDigits.length === 4 && matchedUsers.length === 0 && (
                   <button
                     onClick={() => setShowRegisterModal(true)}
-                    className="w-full p-4 bg-burger-accent-red text-white font-bold rounded-2xl shadow-lg shadow-burger-accent-red/30 hover:scale-[1.02] transition-all"
+                    className="w-full p-4 md:p-4 bg-burger-accent-red text-white font-bold rounded-xl md:rounded-2xl shadow-lg shadow-burger-accent-red/30 active:scale-95 md:hover:scale-[1.02] transition-all min-h-[60px] flex items-center justify-center touch-manipulation text-sm md:text-base"
                   >
                     "{phoneDigits}"로 계정 만들기 ✨
                   </button>
@@ -443,9 +443,9 @@ const Index = () => {
 
         {/* Registration Modal */}
         {showRegisterModal && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">계정 만들기</h3>
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+            <div className="bg-white rounded-xl md:rounded-2xl p-6 md:p-8 max-w-md w-full shadow-2xl my-auto">
+              <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">계정 만들기</h3>
               <p className="text-gray-500 text-sm mb-6">이름과 전화번호로 등록하세요</p>
               
               <div className="space-y-4">
@@ -460,7 +460,7 @@ const Index = () => {
                       setRegisterError('');
                     }}
                     placeholder="이름을 입력하세요"
-                    className="w-full px-4 py-3 border border-black/20 rounded-lg outline-none focus:border-burger-accent-red focus:ring-2 focus:ring-burger-accent-red/10 text-black transition-all duration-300"
+                    className="w-full px-4 py-3 md:py-3 border border-black/20 rounded-lg outline-none focus:border-burger-accent-red focus:ring-2 focus:ring-burger-accent-red/10 text-black transition-all duration-300 min-h-[44px] text-base"
                   />
                 </div>
                 
@@ -475,7 +475,7 @@ const Index = () => {
                       setRegisterError('');
                     }}
                     placeholder="010-1234-5678"
-                    className="w-full px-4 py-3 border border-black/20 rounded-lg outline-none focus:border-burger-accent-red focus:ring-2 focus:ring-burger-accent-red/10 text-black transition-all duration-300"
+                    className="w-full px-4 py-3 md:py-3 border border-black/20 rounded-lg outline-none focus:border-burger-accent-red focus:ring-2 focus:ring-burger-accent-red/10 text-black transition-all duration-300 min-h-[44px] text-base"
                   />
                   <p className="text-xs text-gray-400 mt-1">뒷자리 4자리: {registerPhone.replace(/\D/g, '').slice(-4) || '____'}</p>
                 </div>
@@ -486,7 +486,7 @@ const Index = () => {
                   </div>
                 )}
 
-                <div className="flex gap-3 pt-2">
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
                   <button
                     onClick={() => {
                       setShowRegisterModal(false);
@@ -494,14 +494,14 @@ const Index = () => {
                       setRegisterPhone('');
                       setRegisterError('');
                     }}
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition-all"
+                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg font-medium text-gray-700 active:bg-gray-50 md:hover:bg-gray-50 transition-all min-h-[44px] touch-manipulation"
                   >
                     취소
                   </button>
                   <button
                     onClick={handleRegister}
                     disabled={isRegistering}
-                    className="flex-1 px-4 py-3 bg-burger-accent-red text-white rounded-lg font-semibold hover:bg-burger-accent-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    className="flex-1 px-4 py-3 bg-burger-accent-red text-white rounded-lg font-semibold active:bg-burger-accent-dark md:hover:bg-burger-accent-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all min-h-[44px] touch-manipulation"
                   >
                     {isRegistering ? '등록 중...' : '등록'}
                   </button>

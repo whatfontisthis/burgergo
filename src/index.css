@@ -107,4 +107,10 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* Mobile touch optimization */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
 }

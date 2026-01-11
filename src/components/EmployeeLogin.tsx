@@ -27,11 +27,11 @@ const EmployeeLogin = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-black text-burger-accent-red mb-2">버거고</h1>
-          <p className="text-gray-600 font-medium">직원 포털</p>
-        </div>
+      <div className="max-w-md w-full bg-white rounded-xl md:rounded-2xl shadow-xl p-6 md:p-8 border border-gray-200">
+            <div className="text-center mb-6 md:mb-8">
+              <h1 className="text-2xl md:text-3xl font-black text-burger-accent-red mb-2">버거고</h1>
+              <p className="text-gray-600 font-medium text-sm md:text-base">직원 포털</p>
+            </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -46,11 +46,11 @@ const EmployeeLogin = () => {
                 setPassword(e.target.value);
                 setError('');
               }}
-              placeholder="직원 비밀번호를 입력하세요"
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-burger-accent-red focus:outline-none transition-all text-black"
-              autoFocus
-              required
-            />
+                  placeholder="직원 비밀번호를 입력하세요"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-burger-accent-red focus:outline-none transition-all text-black min-h-[44px] text-base"
+                  autoFocus
+                  required
+                />
           </div>
 
           {error && (
@@ -59,13 +59,13 @@ const EmployeeLogin = () => {
             </div>
           )}
 
-          <button
-            type="submit"
-            disabled={isLoading || !password}
-            className="w-full py-3 bg-burger-accent-red text-white font-bold rounded-xl hover:bg-burger-accent-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg"
-          >
-            {isLoading ? '로그인 중...' : '로그인'}
-          </button>
+              <button
+                type="submit"
+                disabled={isLoading || !password}
+                className="w-full py-3 bg-burger-accent-red text-white font-bold rounded-xl active:bg-burger-accent-dark md:hover:bg-burger-accent-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg min-h-[50px] touch-manipulation"
+              >
+                {isLoading ? '로그인 중...' : '로그인'}
+              </button>
         </form>
 
         <div className="mt-6 text-center">
