@@ -220,8 +220,8 @@ const Index = () => {
         </div>
 
         <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-6 w-full md:max-w-[1060px] md:w-[97%]">
-          <img className="w-full md:w-1/2 h-auto rounded-xl md:rounded-2xl border-2 md:border-4 border-burger-accent-red active:scale-95 md:hover:scale-105 hover:brightness-110 transition-all duration-300 cursor-pointer object-cover shadow-xl" src="/images/burgergo-poster.jpg" alt="BURGERGO" />
-          <img className="w-full md:w-1/2 h-auto rounded-xl md:rounded-2xl border-2 md:border-4 border-burger-accent-red active:scale-95 md:hover:scale-105 hover:brightness-110 transition-all duration-300 cursor-pointer object-cover shadow-xl" src="/images/burgergo-poster2.jpg" alt="BURGERGO" />
+          <img className="w-full md:w-1/2 h-auto rounded-xl md:rounded-2xl border-2 md:border-4 border-burger-accent-red active:scale-95 md:hover:scale-105 hover:brightness-110 transition-all duration-300 cursor-pointer object-cover shadow-xl" src={`${import.meta.env.BASE_URL}images/burgergo-poster.jpg`} alt="BURGERGO" />
+          <img className="w-full md:w-1/2 h-auto rounded-xl md:rounded-2xl border-2 md:border-4 border-burger-accent-red active:scale-95 md:hover:scale-105 hover:brightness-110 transition-all duration-300 cursor-pointer object-cover shadow-xl" src={`${import.meta.env.BASE_URL}images/burgergo-poster2.jpg`} alt="BURGERGO" />
         </div>
       </section>
 
