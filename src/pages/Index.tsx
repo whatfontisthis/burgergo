@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { 
   searchUsersByLast4, 
   registerUser, 
@@ -14,6 +14,7 @@ import { MapIcon } from '../components/icons/MapIcon';
 import { InstagramIcon } from '../components/icons/InstagramIcon';
 
 const Index = () => {
+  const phoneInputRef = useRef<HTMLInputElement>(null);
   const [phoneDigits, setPhoneDigits] = useState('');
   const [selectedUser, setSelectedUser] = useState<StampUser | null>(null);
   const [matchedUsers, setMatchedUsers] = useState<StampUser[]>([]);
@@ -23,6 +24,16 @@ const Index = () => {
   const [registerPhone, setRegisterPhone] = useState('');
   const [registerError, setRegisterError] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
+  const [stampAnimation, setStampAnimation] = useState<number | null>(null);
+  const [showCelebration, setShowCelebration] = useState(false);
+
+  // Auto-focus phone input on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      phoneInputRef.current?.focus();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleDigitChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '').slice(0, 4);
@@ -68,13 +79,31 @@ const Index = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phoneDigits]);
 
-  const handleUserSelect = (user: StampUser) => {
+  const handleUserSelect = useCallback((user: StampUser) => {
     setSelectedUser(user);
-  };
+    // Store in localStorage for persistence
+    localStorage.setItem('burgergo_selected_user', JSON.stringify(user));
+  }, []);
 
-  const handleRegister = async () => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Enter key to submit when 4 digits entered
+    if (e.key === 'Enter' && phoneDigits.length === 4 && matchedUsers.length > 0 && matchedUsers.length === 1) {
+      handleUserSelect(matchedUsers[0]);
+    } else if (e.key === 'Enter' && phoneDigits.length === 4 && matchedUsers.length === 0) {
+      setShowRegisterModal(true);
+    }
+  }, [phoneDigits, matchedUsers, handleUserSelect]);
+
+  const handleRegister = useCallback(async () => {
     if (!registerName.trim() || !registerPhone.trim()) {
       setRegisterError('Please fill in all fields');
+      return;
+    }
+
+    // Validate phone number format
+    const cleanedPhone = registerPhone.replace(/\D/g, '');
+    if (cleanedPhone.length < 10 || cleanedPhone.length > 11) {
+      setRegisterError('Please enter a valid phone number (10-11 digits)');
       return;
     }
 
@@ -85,37 +114,83 @@ const Index = () => {
       const newUser = await registerUser(registerName.trim(), registerPhone.trim());
       if (newUser) {
         setSelectedUser(newUser);
+        localStorage.setItem('burgergo_selected_user', JSON.stringify(newUser));
         setShowRegisterModal(false);
         setRegisterName('');
         setRegisterPhone('');
         setPhoneDigits(newUser.phone_last4);
+        // Auto-select the newly created user
+        handleUserSelect(newUser);
       }
     } catch (error: any) {
       if (error.message === 'Phone number already registered') {
-        // Check if name matches existing user
         const phoneLast4 = registerPhone.replace(/\D/g, '').slice(-4);
         const existingUser = await verifyUserByName(registerName.trim(), phoneLast4);
         if (existingUser) {
           setSelectedUser(existingUser);
+          localStorage.setItem('burgergo_selected_user', JSON.stringify(existingUser));
           setShowRegisterModal(false);
           setRegisterName('');
           setRegisterPhone('');
           setPhoneDigits(existingUser.phone_last4);
         } else {
-          setRegisterError('This phone number is already registered. Please enter the correct name.');
+          setRegisterError('This phone number is already registered. Please check your name and try again, or contact support if you believe this is an error.');
         }
       } else {
-        setRegisterError(error.message || 'Registration failed. Please try again.');
+        const errorMsg = error.message || 'Registration failed';
+        if (errorMsg.includes('network') || errorMsg.includes('fetch')) {
+          setRegisterError('Connection error. Please check your internet connection and try again.');
+        } else if (errorMsg.includes('timeout')) {
+          setRegisterError('Request timed out. Please try again.');
+        } else {
+          setRegisterError(`Registration failed: ${errorMsg}. Please try again or contact support.`);
+        }
       }
     } finally {
       setIsRegistering(false);
     }
-  };
+  }, [registerName, registerPhone, handleUserSelect]);
+
+  // Load persisted user on mount
+  useEffect(() => {
+    const savedUser = localStorage.getItem('burgergo_selected_user');
+    if (savedUser) {
+      try {
+        const user = JSON.parse(savedUser);
+        setSelectedUser(user);
+        setPhoneDigits(user.phone_last4);
+      } catch (e) {
+        // Invalid data, clear it
+        localStorage.removeItem('burgergo_selected_user');
+      }
+    }
+  }, []);
 
   const currentStamps = useMemo(() => selectedUser ? selectedUser.stamps : 0, [selectedUser]);
+
+  // Track stamp changes for animation and celebration
+  useEffect(() => {
+    if (selectedUser && selectedUser.stamps > 0) {
+      const previousStamps = parseInt(localStorage.getItem(`burgergo_stamps_${selectedUser.id}`) || '0');
+      
+      // Check if user reached a milestone (10, 20, 30, etc.)
+      if (selectedUser.stamps >= 10 && selectedUser.stamps % 10 === 0 && previousStamps < selectedUser.stamps) {
+        setShowCelebration(true);
+        setTimeout(() => setShowCelebration(false), 3000);
+      }
+      
+      setStampAnimation(selectedUser.stamps);
+      const timer = setTimeout(() => setStampAnimation(null), 600);
+      
+      // Save current stamps for next comparison
+      localStorage.setItem(`burgergo_stamps_${selectedUser.id}`, selectedUser.stamps.toString());
+      
+      return () => clearTimeout(timer);
+    }
+  }, [selectedUser?.stamps, selectedUser?.id]);
   return (
-    <div className="bg-burger-primary text-burger-primary-text min-w-[1000px]">
-      <div className="max-w-[1600px] mx-auto px-16 xl:px-24 2xl:px-32">
+    <div className="bg-burger-primary text-burger-primary-text min-w-0">
+      <div className="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-16 xl:px-24 2xl:px-32">
       {/* Header */}
       <header className="py-[40px] flex justify-between items-center relative z-50 border-b border-black/10">
         <div className="flex items-center">
@@ -133,7 +208,14 @@ const Index = () => {
             A place to grab delicious handmade burgers
           </p>
           <div className="flex gap-4 mt-8">
-            <button className="bg-burger-accent-red text-white px-8 py-3 rounded-full font-semibold border border-burger-accent-red hover:bg-burger-accent-dark hover:scale-105 hover:shadow-lg transition-all duration-300">Order Now</button>
+            <a 
+              href="https://s.baemin.com/IG000knFx4NgA" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-burger-accent-red text-white px-8 py-3 rounded-full font-semibold border border-burger-accent-red hover:bg-burger-accent-dark hover:scale-105 hover:shadow-lg transition-all duration-300 inline-block text-center"
+            >
+              주문하기
+            </a>
           </div>
         </div>
 
@@ -163,18 +245,18 @@ const Index = () => {
                 <CalendarIcon className="w-6 h-6 xl:w-7 xl:h-7" />
               </div>
               <div className="flex-1">
-                <div className="text-white/80 text-xs xl:text-sm mb-1">Hours</div>
+                <div className="text-white/80 text-xs xl:text-sm mb-1">영업시간</div>
                 <div className="flex flex-col gap-y-1">
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
                     <div className="text-white font-medium text-xs xl:text-sm whitespace-nowrap">
-                      <span className="font-semibold">Tue-Sat:</span> {STORE_INFO.hours.tueSat} <span className="text-white/90 text-xs">(Last: {STORE_INFO.hours.lastOrder.tueSat})</span>
+                      <span className="font-semibold">화-토:</span> {STORE_INFO.hours.tueSat} <span className="text-white/90 text-xs">(마지막 주문: {STORE_INFO.hours.lastOrder.tueSat})</span>
                     </div>
                     <div className="text-white font-medium text-xs xl:text-sm whitespace-nowrap">
-                      <span className="font-semibold">Sun:</span> {STORE_INFO.hours.sun} <span className="text-white/90 text-xs">(Last: {STORE_INFO.hours.lastOrder.sun})</span>
+                      <span className="font-semibold">일:</span> {STORE_INFO.hours.sun} <span className="text-white/90 text-xs">(마지막 주문: {STORE_INFO.hours.lastOrder.sun})</span>
                     </div>
                   </div>
                   <div className="text-white/90 font-medium text-xs xl:text-sm whitespace-nowrap">
-                    <span className="font-semibold">Mon:</span> {STORE_INFO.hours.mon}
+                    <span className="font-semibold">월:</span> {STORE_INFO.hours.mon === 'Closed' ? '휴무' : STORE_INFO.hours.mon}
                   </div>
                 </div>
               </div>
@@ -213,15 +295,24 @@ const Index = () => {
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className="text-3xl font-black text-gray-800">{currentStamps}</span>
-                    <span className="text-gray-400 font-bold">/10</span>
+                      <span className="text-3xl font-black text-gray-800">{currentStamps}</span>
+                      <span className="text-gray-400 font-bold">stamps</span>
+                      {currentStamps >= 10 && (
+                        <div className="text-xs text-green-600 font-semibold mt-1">
+                          ({Math.floor(currentStamps / 10)} free burger{Math.floor(currentStamps / 10) > 1 ? 's' : ''} available)
+                        </div>
+                      )}
                   </div>
                 </div>
 
                 <div className="grid grid-cols-5 gap-3">
                   {Array.from({ length: 10 }, (_, i) => {
                     const stampNumber = i + 1;
-                    const isFilled = stampNumber <= currentStamps;
+                    // Show progress toward next free burger (modulo 10)
+                    const progressStamps = currentStamps % 10;
+                    const isFilled = stampNumber <= progressStamps;
+                    const hasFullSet = currentStamps >= 10;
+                    const isAnimating = stampAnimation !== null && stampNumber === progressStamps && isFilled;
                     return (
                       <div
                         key={stampNumber}
@@ -229,23 +320,50 @@ const Index = () => {
                           isFilled
                             ? 'border-burger-accent-red bg-burger-accent-red text-white'
                             : 'border-gray-200 text-gray-300'
-                        } ${stampNumber === 10 && isFilled ? 'animate-bounce' : ''}`}
-                        style={isFilled && stampNumber !== 10 ? {
-                          backgroundImage: 'url(/images/burgergo-stamp.jpg)',
-                          backgroundSize: '70%',
-                          backgroundRepeat: 'no-repeat',
-                          backgroundPosition: 'center'
-                        } : {}}
+                        } ${stampNumber === 10 && isFilled && hasFullSet ? 'animate-bounce' : ''} ${
+                          isAnimating ? 'animate-pulse scale-110' : ''
+                        }`}
                       >
-                        {stampNumber === 10 ? 'FREE' : !isFilled ? stampNumber.toString().padStart(2, '0') : ''}
+                        {stampNumber === 10 && hasFullSet ? 'FREE' : !isFilled ? stampNumber.toString().padStart(2, '0') : (
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+                          </svg>
+                        )}
                       </div>
                     );
                   })}
                 </div>
+                {currentStamps >= 10 && (
+                  <p className="text-xs text-center text-gray-500 mt-2">
+                    Progress toward next free burger: {currentStamps % 10}/10
+                  </p>
+                )}
 
-                <div className="mt-6 pt-4 border-t border-dashed border-gray-200 flex justify-between items-center">
-                  <p className="text-[10px] text-gray-400 font-bold uppercase">10th Burger is FREE!</p>
-                  <div className="bg-burger-accent-red/10 text-burger-accent-red text-[10px] font-black px-2 py-1 rounded">VIP REWARD</div>
+                {/* Celebration Animation */}
+                {showCelebration && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                    <div className="text-center animate-bounce">
+                      <div className="text-8xl mb-4">🎉</div>
+                      <div className="text-4xl font-black text-burger-accent-red">FREE BURGER!</div>
+                      <div className="text-xl text-gray-700 mt-2">You've earned {Math.floor((selectedUser?.stamps || 0) / 10)} free burger{Math.floor((selectedUser?.stamps || 0) / 10) > 1 ? 's' : ''}!</div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="mt-6 pt-4 border-t border-dashed border-gray-200">
+                  {selectedUser && selectedUser.free_burger_available ? (
+                    <div className="bg-yellow-50 border-2 border-yellow-400 rounded-xl p-4 mb-3 animate-pulse">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-2xl">🎉</span>
+                        <p className="text-sm font-black text-yellow-800">FREE BURGER AVAILABLE!</p>
+                      </div>
+                      <p className="text-xs text-yellow-700">You have {selectedUser.stamps} stamps! Visit the store to redeem your free burger.</p>
+                    </div>
+                  ) : null}
+                  <div className="flex justify-between items-center">
+                    <p className="text-[10px] text-gray-400 font-bold uppercase">10th Burger is FREE!</p>
+                    <div className="bg-burger-accent-red/10 text-burger-accent-red text-[10px] font-black px-2 py-1 rounded">VIP REWARD</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -259,13 +377,19 @@ const Index = () => {
 
               <div className="relative mb-6">
                 <input 
+                  ref={phoneInputRef}
                   type="tel" 
                   maxLength={4}
                   value={phoneDigits}
                   onChange={handleDigitChange}
+                  onKeyDown={handleKeyDown}
                   placeholder="0000"
                   className="w-full text-center text-5xl font-bold tracking-[0.2em] py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-burger-accent-red focus:bg-white focus:outline-none transition-all"
+                  aria-label="Enter last 4 digits of phone number"
                 />
+                {phoneDigits.length === 4 && (
+                  <p className="text-xs text-gray-400 mt-2 text-center">Press Enter to select</p>
+                )}
               </div>
 
               <div className="space-y-3 min-h-[150px]">

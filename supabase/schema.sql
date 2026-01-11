@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS stamp_users (
   name TEXT NOT NULL,
   phone_full TEXT NOT NULL,
   phone_last4 TEXT NOT NULL,
-  stamps INTEGER DEFAULT 0 CHECK (stamps >= 0 AND stamps <= 10),
+  stamps INTEGER DEFAULT 0 CHECK (stamps >= 0),
+  free_burger_available BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   UNIQUE(phone_full)

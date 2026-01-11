@@ -3,6 +3,7 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import EmployeeStampPanel from "./components/EmployeeStampPanel";
+import EmployeeLogin from "./components/EmployeeLogin";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,12 +17,13 @@ const queryClient = new QueryClient({
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <HashRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/employee" element={<EmployeeStampPanel />} />
-        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/employee/login" element={<EmployeeLogin />} />
+          <Route path="/employee" element={<EmployeeStampPanel />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
     </HashRouter>
   </QueryClientProvider>
 );

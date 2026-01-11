@@ -50,7 +50,7 @@ export const STORE_INFO = {
   address: '공릉동 585-10',
   fullAddress: '서울시 노원구 공릉동 585-10',
   phone: '070-4680-1668',
-  locationDetails: '공릉역 2번 출구에서 구분\n태릉입구역 4번 출구에서 구분 거리',
+  locationDetails: '공릉역 2번 출구, 태릉입구역 4번 출구에서 9분 거리',
   hours: {
     tueSat: '11:00-21:00',
     sun: '13:00-20:00',
