@@ -207,6 +207,7 @@ function cdnPrefixImages(): Plugin {
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
+    base: process.env.GITHUB_PAGES ? '/burgergo/' : '/',
     server: {
       host: "::",
       port: 8080,
